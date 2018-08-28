@@ -17,10 +17,11 @@ In True Flip users provide the randomness rather than relying on a 3rd party
 4. open ganache and make sure that it's running on port 8545
 5. run ``` truffle compile ```
 6. run ``` truffle migrate ```
-7. in another terminal tab, run ``` npm run dev ```
+7. in another terminal tab, run ``` npm run start ```
 8. Tests running please run ``` truffle test ```
 
 ## Playing True Flip
+
 1. open your browser to `localhost:3000`
 2. copy the mnemonic in ganache and import into metamask
 3. set metamask to use localhost at port ``` 8545 ``` , you should have ~100ether on this testnet

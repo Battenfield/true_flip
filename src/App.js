@@ -154,12 +154,6 @@ class App extends Component {
 
   render() {
     const { players, account } = this.state;
-    console.log('acc', typeof account)
-    console.log('acc', typeof players[0])
-    console.log(this.state.player1Lied, 'p1L')
-    console.log(this.state.player2Lied, 'p2L')
-
-    console.log(players.indexOf(account))
     return (
       <div className="App">
         <nav className="navbar pure-menu pure-menu-horizontal" >
@@ -184,7 +178,7 @@ class App extends Component {
 
               {/* commit */}
               {this.state.randomStage && !this.state.revealTime && <div><input onChange={(e)=>this.keccakIt(e)}/></div>}
-              {this.state.randomStage && !this.state.revealTime && <button onClick={()=>this.submitCommit()}>Submit Pre Image</button>}
+              {this.state.randomStage && !this.state.revealTime && <button onClick={()=>this.submitCommit()}>Submit Random Number</button>}
 
               {/* reveal */}
               {this.state.revealTime && this.state.winner == "0x0000000000000000000000000000000000000000" && <div><input value={this.state.value} onChange={(e)=>this.revealUpdate(e)}/></div>}
