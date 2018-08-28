@@ -1,8 +1,10 @@
 # True Flip
 
 True Flip is a coinflip game on ethereum
+
 In True Flip users provide the randomness rather than relying on a 3rd party
 
+Commit Reveal Scheme
 - users first enter in 10Ether each
 - then provide a random number which is hashed
 - once both players have locked in their random# they send one last transaction to reveal their number
