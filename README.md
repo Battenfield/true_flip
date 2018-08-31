@@ -1,6 +1,6 @@
 # True Flip
 
-True Flip is a coinflip game on ethereum
+True Flip is a coinflip game on the ethereum network of your choice
 
 In True Flip users provide the randomness rather than relying on a 3rd party
 
@@ -11,7 +11,7 @@ Commit Reveal Scheme
 - the contract takes the 2 numbers and determines a winner, sending the winner the locked ether
 
 
-## Run the Project
+## Run the Project Locally
 
 1. ``` git clone https://github.com/Battenfield/true_flip.git && cd true_flip ```
 2. ``` npm i ``` to install dependencies 
