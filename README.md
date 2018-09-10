@@ -39,20 +39,21 @@ This project is for educational purposes only.
 
 - On MetaMask with Ganache there is an bug where sometimes middle of the game an error can occur: ``` [ethjs-rpc] rpc error with payload ```. To fix this error please uninstall and reinstall metamask using the same Private Keys in Ganache
 
-## Design Considerations
+## Design Pattern Decisions
 
-Reusability:
-This contract is for one time use only, meaning you will have to re-compile and re-deploy a new contract to play the game again. Ideally this would be setup through a factory that would spin off the new contracts for you.
-
-Security:
 A commit reveal scheme allows users to submit their own randomness in the form of a number. Rather than relying on an oracle, which could be compromised, the responsibility of entropy is placed in the hands of the players.
 
-In the commit reveal scheme, the number is then hashed and submited to the contract. After both players submit, they send the revealed number to the contract, which the contract verifies the hash. If both players are telling the truth during the reveal phase, the contract will take both numbers and combine them to use as it's source of randomness. The longer the number the better the safer, as your opponent could cache number hashes to figure out which number the opponent submitted. The flip contract uses modifiers to protect player commit and reveal methods.
+In the commit reveal scheme, the number is then hashed and submitted to the contract. After both players submit, they send the revealed number to the contract, which the contract verifies the hash. If both players are telling the truth during the reveal phase, the contract will take both numbers and combine them to use as it's source of randomness. The longer the number the better the safer, as your opponent could cache number hashes to figure out which number the opponent submitted. The flip contract uses modifiers to protect player commit and reveal methods.
 
-This project is for educational purposes only. These are some of, but not limited to security limitations in this contract:
+This contract is for one time use only, meaning you will have to re-compile and re-deploy a new contract to play the game again. Ideally this would be setup through a factory that would spin off the new contracts for you.
 
-- This contract has a kill switch that the deployer of the contract and invoke. For any reason, valid or not the manager could remove funds from the flip and redistribute. Ideally this flip game would not rely on a manager.
+## Avoiding Common Attacks
 
-- Currently, you must trust your opponent to reveal, to get the funds released or rely on the manager to kill and send the funds. Setting up an auto time release if opponent doesnt commit/reveal within a certain timeframe
+- This contract uses the OpenZeppelin SafeMath library to avoid overflows that attackers could leverage to their advantage. During the Pick Winner phase of this contract the SafeMath Modulo operation is protected from an opponent forcing a revert
+
+- This contract has a kill switch that the deployer of the contract and invoke. For any reason, valid or not the manager could remove funds from the flip and redistribute. Another design pattern would be to remove the manager and refund the balance contributed by each participant
+
+- Currently, you must trust your opponent to reveal, to get the funds released or rely on the manager to kill and send the funds. Setting up an auto time release if opponent doesnt commit/reveal within a certain timeframe could be another security design pattern which avoids a manager.
+
 
 - On MetaMask with Ganache there is an bug where sometimes middle of the game an error can occur: ``` [ethjs-rpc] rpc error with payload ```. To fix this error please uninstall and reinstall metamask using the same Private Keys in Ganache. This error does not occur on Rinkeby testnet
