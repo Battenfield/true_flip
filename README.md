@@ -5,11 +5,14 @@ True Flip is a coinflip game on the ethereum network of your choice
 In True Flip users provide the randomness rather than relying on a 3rd party
 
 Commit Reveal Scheme
-- users first enter in 10Ether each
+- users first enter in 10 Ether each
 - then provide a random number which is hashed
 - once both players have locked in their random# they send one last transaction to reveal their number
 - the contract takes the 2 numbers and determines a winner, sending the winner the locked ether
 
+This project is for educational purposes only.
+
+![true_flip](https://imgur.com/a/03PDZ81)
 
 ## Run the Project Locally
 
@@ -23,7 +26,7 @@ Commit Reveal Scheme
 8. Tests running please run ``` truffle test ```
 
 ## Playing True Flip
-
+  Prior to start, please uninstall & reinstall metamask
 1. open your browser to `localhost:3000`
 2. copy the mnemonic in ganache and import into metamask
 3. set metamask to use localhost at port ``` 8545 ``` , you should have ~100ether on this testnet
@@ -34,4 +37,22 @@ Commit Reveal Scheme
 8. a new reveal input should show up once both accounts have commited, enter the same number for each account and sign those transactions
 9. once both players have signed each tx (join, commit random#, reveal#) the winner's address will show up on screen and the ether will be in their account
 
+- On MetaMask with Ganache there is an bug where sometimes middle of the game an error can occur: ``` [ethjs-rpc] rpc error with payload ```. To fix this error please uninstall and reinstall metamask using the same Private Keys in Ganache
 
+## Design Considerations
+
+Reusability:
+This contract is for one time use only, meaning you will have to re-compile and re-deploy a new contract to play the game again. Ideally this would be setup through a factory that would spin off the new contracts for you.
+
+Security:
+A commit reveal scheme allows users to submit their own randomness in the form of a number. Rather than relying on an oracle, which could be compromised, the responsibility of entropy is placed in the hands of the players.
+
+In the commit reveal scheme, the number is then hashed and submited to the contract. After both players submit, they send the revealed number to the contract, which the contract verifies the hash. If both players are telling the truth during the reveal phase, the contract will take both numbers and combine them to use as it's source of randomness. The longer the number the better the safer, as your opponent could cache number hashes to figure out which number the opponent submitted. The flip contract uses modifiers to protect player commit and reveal methods.
+
+This project is for educational purposes only. These are some of, but not limited to security limitations in this contract:
+
+- This contract has a kill switch that the deployer of the contract and invoke. For any reason, valid or not the manager could remove funds from the flip and redistribute. Ideally this flip game would not rely on a manager.
+
+- Currently, you must trust your opponent to reveal, to get the funds released or rely on the manager to kill and send the funds. Setting up an auto time release if opponent doesnt commit/reveal within a certain timeframe
+
+- On MetaMask with Ganache there is an bug where sometimes middle of the game an error can occur: ``` [ethjs-rpc] rpc error with payload ```. To fix this error please uninstall and reinstall metamask using the same Private Keys in Ganache. This error does not occur on Rinkeby testnet

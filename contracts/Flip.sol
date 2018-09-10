@@ -21,13 +21,12 @@ contract Flip {
 
     // allows player to enter game, min
     function enter() public payable {
-        require(msg.value > .01 ether);
+        require(msg.value >= 10 ether);
         require(!(players.length >= 2));
 
         players.push(msg.sender);
         if(players.length == 2) {
             randomStage = true;
-          //call run start flip function
           //send req to send pre img
         }
         /* TODO: BLOCKTIMES */
@@ -45,6 +44,7 @@ contract Flip {
     }
 
     function reveal(uint val) public playerRestricted {
+        // todo: check stage of flip
         addressToRevealValue[msg.sender] = val;
         bothPlayersIn++;
         //check if both address are in and then run set revealStage = true
@@ -57,8 +57,8 @@ contract Flip {
         //takes in a value an
         address player1 = players[0];
         address player2 = players[1];
+        
         //check the validity
-
         bytes32 player1Check = keccak256(abi.encodePacked(addressToRevealValue[player1]));
         bytes32 player2Check = keccak256(abi.encodePacked(addressToRevealValue[player2]));
 
@@ -91,7 +91,7 @@ contract Flip {
         winner = players[index];
     }
 
-    //get both random nums and keccak256 them together
+    // get both random nums and keccak256 them together
     function random() private view returns (uint) {
         return uint(keccak256(abi.encodePacked(addressToPreImg[players[0]], addressToPreImg[players[1]])));
     }
