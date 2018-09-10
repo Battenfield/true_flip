@@ -1,6 +1,10 @@
 pragma solidity ^0.4.21;
+import "./SafeMath.sol";
 
 contract Flip {
+    // Use SafeMath library for uint256 to protect commit and reveals
+    using SafeMath for uint256;
+
     address[] public players;
     bool public randomStage = false;
     bool public revealStage = false;
@@ -57,7 +61,7 @@ contract Flip {
         //takes in a value an
         address player1 = players[0];
         address player2 = players[1];
-        
+
         //check the validity
         bytes32 player1Check = keccak256(abi.encodePacked(addressToRevealValue[player1]));
         bytes32 player2Check = keccak256(abi.encodePacked(addressToRevealValue[player2]));
@@ -85,7 +89,7 @@ contract Flip {
  /* TODO: check for blocktimes in modifier moneys go to user who sent, send both back if nobody sent*/
 
     function pickWinner() private {
-        uint index = randomNumber % players.length;
+        uint index = randomNumber.mod(players.length);
         players[index].transfer(contractAddress.balance);
         //send winner money
         winner = players[index];
@@ -93,6 +97,7 @@ contract Flip {
 
     // get both random nums and keccak256 them together
     function random() private view returns (uint) {
+        //uses the SafeMath library method add to combine the entropy
         return uint(keccak256(abi.encodePacked(addressToPreImg[players[0]], addressToPreImg[players[1]])));
     }
 
