@@ -12,7 +12,7 @@ Commit Reveal Scheme
 
 This project is for educational purposes only.
 
-![true_flip](https://imgur.com/a/03PDZ81)
+![True Flip](https://i.imgur.com/SoQCyCV.png)
 
 ## Run the Project Locally
 
